@@ -1,10 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './TransactionTable.module.sass';
 
 const TransactionTable = props => {
-  const { transactions, firstName, lastName } = props;
+  const {
+    transactions,
+    fullName: { firstName, lastName },
+  } = props;
 
   return (
     <>
@@ -19,7 +21,7 @@ const TransactionTable = props => {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Operation type </th>
+            <th>Income/Expence</th>
             <th>Amount</th>
           </tr>
         </thead>
@@ -48,5 +50,4 @@ TransactionTable.propTypes = {
   ),
 };
 
-const mapStateToProps = state => state.userStore.data;
-export default connect(mapStateToProps)(TransactionTable);
+export default TransactionTable;

@@ -18,7 +18,9 @@ import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import { withNotAuth, withAuth } from './components/HOCs';
 import PricingPage from './pages/PricingPage';
-import TransactionPage from './pages/TransactionPage';
+
+import { lazy, Suspense } from 'react';
+const TransactionPage = lazy(() => import('./pages/TransactionPage'));
 
 class App extends Component {
   render () {
@@ -76,11 +78,28 @@ class App extends Component {
           <Route exact path='/dashboard' component={withAuth(Dashboard)} />
           <Route exact path='/contest/:id' component={withAuth(ContestPage)} />
           <Route exact path='/account' component={withAuth(UserProfile)} />
-          <Route
-            exact
-            path='/transactions'
-            component={withAuth(TransactionPage)}
-          />
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  fontSize: '22px',
+                  color: 'darkblue',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: '120px',
+                }}
+              >
+                LOADING...
+              </div>
+            }
+          >
+            <Route
+              exact
+              path='/transactions'
+              component={withAuth(TransactionPage)}
+            />
+          </Suspense>
+
           <Route exact path='/pricing' component={PricingPage} />
           <Route component={NotFound} />
         </Switch>
